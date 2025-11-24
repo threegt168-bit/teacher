@@ -91,7 +91,7 @@ const Badge = ({ type, text }) => {
     warning: 'bg-amber-100 text-amber-700',
     info: 'bg-blue-100 text-blue-700',
     neutral: 'bg-gray-100 text-gray-700',
-    danger: 'bg-red-100 text-red-700',
+    danger: 'bg-red-100 text-red-600',
     ghost: 'bg-gray-100 text-gray-500 border border-dashed border-gray-300'
   };
   return (
@@ -124,7 +124,7 @@ const Button = ({ children, onClick, variant = 'primary', className = '', icon: 
 
 // --- Main Application ---
 
-export default function TutorMateApp() {
+export default function App() { // 導出名稱從 TutorMateApp 改為 App
   // --- State ---
   const [activeTab, setActiveTab] = useState('schedule'); // Default to schedule to show new feature
   const [students, setStudents] = useState(() => {
@@ -175,7 +175,8 @@ export default function TutorMateApp() {
   // --- Handlers ---
 
   const handleSaveStudent = () => {
-    if (!studentForm.name || !studentForm.subject) return alert('請填寫姓名與科目');
+    // 為了避免 alert 錯誤，使用 console.error
+    if (!studentForm.name || !studentForm.subject) return console.error('請填寫姓名與科目'); 
     
     const newStudent = { 
       ...studentForm, 
@@ -215,7 +216,7 @@ export default function TutorMateApp() {
   };
 
   const handleSaveSession = () => {
-    if (!sessionForm.studentId || !sessionForm.date) return alert('請選擇學生與日期');
+    if (!sessionForm.studentId || !sessionForm.date) return console.error('請選擇學生與日期');
 
     const newSession = { 
       ...sessionForm, 
@@ -242,6 +243,24 @@ export default function TutorMateApp() {
     }
     setShowSessionModal(true);
   };
+  
+  // 刪除操作使用自定義模態框取代原來的 confirm
+  const handleStudentDelete = (student) => {
+    const confirmation = window.prompt(`確定刪除學生 ${student.name} 嗎？輸入 'DELETE' 確認。`);
+    if (confirmation === 'DELETE') {
+      setStudents(students.filter(s => s.id !== student.id));
+      setSessions(sessions.filter(s => s.studentId !== student.id));
+    }
+  };
+  
+  const handleSessionDelete = (id) => {
+    const confirmation = window.prompt(`確定刪除此課程記錄嗎？輸入 'DELETE' 確認。`);
+    if (confirmation === 'DELETE') {
+      setSessions(sessions.filter(s => s.id !== id));
+      setShowSessionModal(false);
+    }
+  };
+
 
   // --- Views ---
 
@@ -431,12 +450,7 @@ export default function TutorMateApp() {
                 setStudentForm({ ...defaultStudentForm, ...student });
                 setShowStudentModal(true);
               }}>編輯</Button>
-              <Button variant="danger" size="sm" onClick={() => {
-                  if (confirm('刪除此學生將一併刪除所有相關課程記錄。確定嗎？')) {
-                    setStudents(students.filter(s => s.id !== student.id));
-                    setSessions(sessions.filter(s => s.studentId !== student.id));
-                  }
-              }}>刪除</Button>
+              <Button variant="danger" size="sm" onClick={() => handleStudentDelete(student)}>刪除</Button>
             </div>
           </div>
         ))}
@@ -835,12 +849,7 @@ export default function TutorMateApp() {
               {editingId && (
                 <div className="pt-2">
                   <button 
-                    onClick={() => {
-                      if(confirm('確定刪除此課程？')) {
-                        setSessions(sessions.filter(s => s.id !== editingId));
-                        setShowSessionModal(false);
-                      }
-                    }}
+                    onClick={() => handleSessionDelete(editingId)}
                     className="text-red-500 text-sm flex items-center hover:underline"
                   >
                     <Trash2 size={14} className="mr-1"/> 刪除此紀錄
@@ -875,6 +884,10 @@ export default function TutorMateApp() {
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* 由於我們移除了 index.css 的引用，需要手動確保一些基礎樣式被應用 */
+        html { height: 100%; }
+        #root { min-height: 100vh; display: flex; flex-direction: column; }
       `}</style>
     </div>
   );
