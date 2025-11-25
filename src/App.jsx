@@ -48,22 +48,22 @@ const getDayName = (dayIndex) => {
 const INITIAL_STUDENTS = [
   { 
     id: 1, 
-    name: '陳小明', 
-    subject: '國中數學', 
-    rate: 600, 
+    name: 'Yayu', 
+    subject: '鋼琴演奏', 
+    rate: 1600, 
     phone: '0912-345-678', 
-    note: '幾何觀念較弱，需多加強',
+    note: '拿到全國比賽第一名',
     weeklySchedule: [
       { day: 2, time: '18:30', duration: 2 } // 週二
     ]
   },
   { 
     id: 2, 
-    name: '林美美', 
-    subject: '高中英文', 
+    name: '昕', 
+    subject: '小提琴', 
     rate: 800, 
     phone: '0987-654-321', 
-    note: '準備學測中',
+    note: '世界第一',
     weeklySchedule: [
       { day: 4, time: '19:00', duration: 1.5 } // 週四
     ]
@@ -71,10 +71,10 @@ const INITIAL_STUDENTS = [
 ];
 
 const INITIAL_SESSIONS = [
-  { id: 101, studentId: 1, date: '2023-10-25', time: '18:30', duration: 2, topic: '三角形全等性質', paid: true, feedback: '進步很多' },
-  { id: 102, studentId: 2, date: '2023-10-26', time: '19:00', duration: 1.5, topic: '雜誌閱讀 Unit 3', paid: false, feedback: '' },
+  { id: 101, studentId: 1, date: '2023-10-25', time: '18:30', duration: 2, topic: '高階班', paid: true, feedback: '進步很多' },
+  { id: 102, studentId: 2, date: '2023-10-26', time: '19:00', duration: 1.5, topic: '樂理 Unit 3', paid: false, feedback: '' },
   // Generate a session for today for demo
-  { id: 103, studentId: 1, date: formatDateStr(new Date()), time: '18:30', duration: 2, topic: '畢氏定理', paid: false, feedback: '' },
+  { id: 103, studentId: 1, date: formatDateStr(new Date()), time: '18:30', duration: 2, topic: '音樂史', paid: false, feedback: '' },
 ];
 
 // --- Components ---
