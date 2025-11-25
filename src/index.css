@@ -1,0 +1,5 @@
+/* 這是 Tailwind CSS 的三個核心指令，必須包含在一個 CSS 檔案中，
+   然後在 src/main.jsx 中導入，才能讓 Vite 生成樣式。 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
